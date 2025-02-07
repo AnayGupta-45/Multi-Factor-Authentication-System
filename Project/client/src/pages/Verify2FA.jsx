@@ -1,7 +1,11 @@
-import React from 'react'
+import React from 'react';
 
-export default function Verify2FA() {
-  return (
-    <div>Verify2FA</div>
-  )
-}
+const verify2fa = () => {
+    return (
+        <div>
+            Verify2fa
+        </div>
+    );
+};
+
+export default verify2fa;

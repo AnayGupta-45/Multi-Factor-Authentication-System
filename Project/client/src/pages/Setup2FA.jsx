@@ -1,7 +1,11 @@
-import React from 'react'
+import React from 'react';
 
-export default function Setup2FA() {
-  return (
-    <div>Setup2FA</div>
-  )
-}
+const setup2fa = () => {
+    return (
+        <div>
+            Setup2fa
+        </div>
+    );
+};
+
+export default setup2fa;
