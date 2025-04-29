@@ -68,7 +68,6 @@ export const setup2FA = async (req, res) => {
     });
     const qrImgUrl = await qrCode.toDataURL(url);
     res.status(200).json({
-      secret: secret.base32,
       qrCode: qrImgUrl,
     });
   } catch (error) {
