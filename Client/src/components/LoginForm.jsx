@@ -116,9 +116,7 @@ const LoginForm = () => {
         </button>
         <div>
           <p className="pt-6 text-center text-sm text-slate-400">
-            {isRegister
-              ? "Already have an account?"
-              : "Don't have an account?"}
+            {isRegister ? "Already have an account?" : "Don't have an account?"}
             <Link
               to=""
               onClick={handleRegisterToggle}
