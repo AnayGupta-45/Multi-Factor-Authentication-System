@@ -43,10 +43,21 @@ export const authStatus = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
-  if (!req.user) res.status(401).json({ message: "Unauthorized User" });
-  req.logout((err) => {
-    if (err) return res.status(400).json({ message: "User not Logged In" });
-    res.status(200).json({ message: "Logout Successfull" });
+  if (!req.user) return res.status(401).json({ message: "Unauthorized User" });
+  
+  // Clear the session cookie
+  req.logout( (err) =>{
+    if(err){
+      return next(err);
+    }
+    req.session.destroy((err)=>{
+       if(err){
+        return next(err)
+       }
+       // clear cookie
+       res.clearCookie("connect.sid ");
+       res.status(200).json({ message : "Logged Out Succesfully"})
+    });
   });
 };
 
@@ -54,7 +65,7 @@ export const setup2FA = async (req, res) => {
   try {
     console.log("The Req.user is : ", req.user);
     const user = req.user;
-    var secret = speakeasy.generateSecret();
+    const secret = speakeasy.generateSecret();
     console.log("the secret obj is :", secret);
     user.twoFactorSecret = secret.base32;
     user.isMfaActive = true;
@@ -67,8 +78,10 @@ export const setup2FA = async (req, res) => {
       encoding: "base32",
     });
     const qrImgUrl = await qrCode.toDataURL(url);
+
     res.status(200).json({
       qrCode: qrImgUrl,
+      secret: secret.base32, // ✅ Send this so frontend can display/copy it
     });
   } catch (error) {
     res.status(500).json({ error: "Error setting up 2Fa", message: error });
