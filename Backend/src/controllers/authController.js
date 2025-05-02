@@ -44,22 +44,21 @@ export const authStatus = async (req, res) => {
 
 export const logout = async (req, res) => {
   if (!req.user) return res.status(401).json({ message: "Unauthorized User" });
-  
-  // Clear the session cookie
-  req.logout( (err) =>{
-    if(err){
+
+  req.logout((err) => {
+    if (err) {
       return next(err);
     }
-    req.session.destroy((err)=>{
-       if(err){
-        return next(err)
-       }
-       // clear cookie
-       res.clearCookie("connect.sid ");
-       res.status(200).json({ message : "Logged Out Succesfully"})
+    req.session.destroy((err) => {
+      if (err) {
+        return next(err);
+      }
+      res.clearCookie("connect.sid"); // ✅ Fixed here
+      res.status(200).json({ message: "Logged Out Successfully" });
     });
   });
 };
+
 
 export const setup2FA = async (req, res) => {
   try {
